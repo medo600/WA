@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "WhatsApp Marketing Manager",
+  "version": "1.0.0",
+  "description": "Advanced WhatsApp marketing automation tool with bulk messaging, auto-response, and contact management",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://web.whatsapp.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "js": [
+        "utils/constants.js",
+        "utils/helpers.js",
+        "services/whatsapp-service.js",
+        "services/storage-service.js",
+        "services/csv-service.js",
+        "content/content-script.js"
+      ],
+      "css": ["content/styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "WhatsApp Marketing Manager"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["content/*", "utils/*"],
+      "matches": ["https://web.whatsapp.com/*"]
+    }
+  ]
+}

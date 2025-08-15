@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Marketing Manager</title>
+    <style>
+        body {
+            width: 350px;
+            min-height: 400px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header p {
+            margin: 8px 0 0 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #4ade80;
+        }
+
+        .status-error {
+            color: #f87171;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border: none;
+        }
+
+        .button-primary:hover {
+            background: linear-gradient(135deg, #22c55e, #0f766e);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .quick-action {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quick-action:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer {
+            padding: 16px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .notification {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .notification-success {
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+        }
+
+        .notification-error {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>WhatsApp Marketing Manager</h1>
+        <p>Professional WhatsApp automation tool</p>
+    </div>
+
+    <div class="content">
+        <div id="notification" class="notification hidden"></div>
+
+        <div class="status-card">
+            <div class="status-item">
+                <span>Extension Status:</span>
+                <span id="extensionStatus" class="status-value">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span>WhatsApp Web:</span>
+                <span id="whatsappStatus" class="status-value">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span>Active Operations:</span>
+                <span id="activeOps" class="status-value">0</span>
+            </div>
+        </div>
+
+        <button id="openPanel" class="button button-primary">
+            <span>Open Control Panel</span>
+        </button>
+
+        <div class="quick-actions">
+            <button id="exportData" class="quick-action">
+                Export Data
+            </button>
+            <button id="importData" class="quick-action">
+                Import Data
+            </button>
+            <button id="viewLogs" class="quick-action">
+                View Logs
+            </button>
+            <button id="pauseOps" class="quick-action">
+                Pause Operations
+            </button>
+        </div>
+
+        <div class="status-card">
+            <h3 style="margin: 0 0 12px 0; font-size: 14px;">Quick Stats</h3>
+            <div class="status-item">
+                <span>Contact Lists:</span>
+                <span id="contactListsCount" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span>Auto Response Rules:</span>
+                <span id="autoRulesCount" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span>Message Templates:</span>
+                <span id="templatesCount" class="status-value">-</span>
+            </div>
+        </div>
+
+        <input type="file" id="importFile" accept=".json" style="display: none;">
+    </div>
+
+    <div class="footer">
+        <p>© 2024 WhatsApp Marketing Manager v1.0.0</p>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
